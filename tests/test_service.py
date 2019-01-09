@@ -13,7 +13,6 @@ from temp_messenger.service import (
 )
 
 from nameko.testing.services import worker_factory
-from temp_messenger.service import KonnichiwaService
 
 @pytest.fixture
 def fake_strict_redis():
