@@ -1,4 +1,5 @@
 from redis import StrictRedis
+from nameko.extensions import DependencyProvider
 
 class RedisClient:
 
@@ -13,6 +14,19 @@ class RedisClient:
 
     return message
 
+
+# The dependency provider allow us to utilize the client(RedisClient) within our services
+class MessageStore(DependencyProvider):
+
+  def setup(self):
+    redis_url = self.container.config['REDIS_URL']
+    self.client = RedisClient(redis_url)
+
+  def stop(self):
+    del self.client
+
+  def get_dependency(self, worker_ctx):
+    return self.client
 
 class RedisError(Exception):
   pass
