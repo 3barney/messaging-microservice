@@ -1,2 +1,3 @@
 AMQP_URI: 'pyamqp://guest:guest@localhost' # Connection to RabbitMQ
 rpc_exchange: 'nameko-rpc'
+REDIS_URL: 'redis://localhost:6379/0'
