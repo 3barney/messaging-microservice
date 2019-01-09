@@ -90,3 +90,34 @@ def test_saves_new_message(message_svc, fake_strict_redis, uuid4):
   # decode_responses. decode() is needed
   message = fake_strict_redis().get('abcdef123456').decode()
   assert message == 'Test message here'
+
+
+def test_gets_all_messages(message_svc, fake_strict_redis):
+  fake_strict_redis().set('message-1', 'Hello')
+  fake_strict_redis().set('abcdef123456', 'Howdy')
+  fake_strict_redis().set('xyz789', 'I Love Python')
+  fake_strict_redis().set('aaaabbbb', 'So do I!')
+
+  with entrypoint_hook(
+    message_svc, 'get_all_messages'
+  ) as get_all_messages:
+    messages = get_all_messages()
+
+  assert messages == [
+    {'id': 'message-1', 'message': 'Hello', 'expires_in': -1},
+    {'id': 'abcdef123456', 'message': 'Howdy', 'expires_in': -1},
+    {'id': 'xyz789', 'message': 'I Love Python', 'expires_in': -1},
+    {'id': 'aaaabbbb', 'message': 'So do I!', 'expires_in': -1},
+  ]
+
+
+def test_returns_empty_list_if_no_messages(message_svc):
+  # Writing point:
+  # This test will fail at first since redis is not cleared
+  # after each test. Explain the tear down
+  with entrypoint_hook(
+    message_svc, 'get_all_messages'
+  ) as get_all_messages:
+    messages = get_all_messages()
+
+  assert messages == []

@@ -25,7 +25,7 @@ class RedisClient:
     return [{
       'id': message_id,
       'message': self.redis.get(message_id)
-    } for message_id in self.redis.keys]
+    } for message_id in self.redis.keys()]
 
 
 # The dependency provider allow us to utilize the client(RedisClient) within our services
