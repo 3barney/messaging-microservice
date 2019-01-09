@@ -91,7 +91,6 @@ def test_saves_new_message(message_svc, fake_strict_redis, uuid4):
   message = fake_strict_redis().get('abcdef123456').decode()
   assert message == 'Test message here'
 
-
 def test_gets_all_messages(message_svc, fake_strict_redis):
   fake_strict_redis().set('message-1', 'Hello')
   fake_strict_redis().set('abcdef123456', 'Howdy')

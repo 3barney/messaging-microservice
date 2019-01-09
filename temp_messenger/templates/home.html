@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-
+  <head>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+  </head>
   <body>
     {% if messages %}
       {% for message in messages %}
@@ -8,5 +10,31 @@
     {% else %}
       <p>No Messages</p>
     {% endif %}
+
+    <form action="/messages" id="postMessage" method="post">
+      <input type="text" placeholder="Post Message" name="message">
+      <input type="submit" value="Post">
+    </form>
+
+    <script>
+      $("#postMessage").submit(function(event) {
+        console.log("hello world")
+        event.preventDefault()
+        var $form = $(this),
+          message = $form.find("input[name='message']").val(),
+          url = $form.attr("action");
+
+        console.log("Message", message)
+
+        $.ajax({
+          type:"post",
+          url: url,
+          data: JSON.stringify({ message: message }),
+          contentType: "application/json",
+          dataType: "json",
+          success: function() { location.reload(); }
+        });
+      });
+    </script>
   </body>
 </html>
