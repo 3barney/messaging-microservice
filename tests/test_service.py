@@ -60,7 +60,8 @@ def message_lifetime():
 def test_homepage(web_server, message_svc, web_session, fake_strict_redis):
   result = web_session.get('/')
   assert 200 == result.status_code
-  assert 'Konnichiwa' in result.text
+  assert '<!DOCTYPE html>' in result.text
+  # assert 'TempMessenger' in result.text
 
 def test_get_messages(message_svc, fake_strict_redis):
   fake_strict_redis().set('msg1', 'Test message here')

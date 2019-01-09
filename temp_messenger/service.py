@@ -1,7 +1,9 @@
 from nameko.rpc import rpc, RpcProxy # rpc allow decorate methonds with rpc  and expose them as entrypoints into our service.
 from nameko.web.handlers import http
 
+
 from .dependencies.redis import MessageStore
+from .dependencies.jinja2 import Jinja2
 
 class KonnichiwaService:
 
@@ -15,11 +17,15 @@ class KonnichiwaService:
 class WebService:
 
   name = 'web_server'
-  konnichiwa_service = RpcProxy('konnichiwa_service')
-
+  message_service = RpcProxy('message_service')
+  templates = Jinja2()
+  
   @http('GET', '/')
   def home(self, request):
-    return self.konnichiwa_service.konnichiwa()
+    messages = self.message_service.get_all_messages()
+    rendered_template = self.templates.render_home(messages)
+
+    return rendered_template
 
 
 class MessageService:
@@ -38,4 +44,5 @@ class MessageService:
 
   @rpc
   def get_all_messages(self):
-    return self.message_store.get_all_messages()
+    messages = self.message_store.get_all_messages()
+    return messages
