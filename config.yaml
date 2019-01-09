@@ -1,0 +1,2 @@
+AMQP_URI: 'pyamqp://guest:guest@localhost' # Connection to RabbitMQ
+rpc_exchange: 'nameko-rpc'
