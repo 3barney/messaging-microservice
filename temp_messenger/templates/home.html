@@ -3,13 +3,8 @@
     <script src="https://code.jquery.com/jquery-latest.js"></script>
   </head>
   <body>
-    {% if messages %}
-      {% for message in messages %}
-        <p>{{ message['message'] }}</p>
-      {% endfor %}
-    {% else %}
-      <p>No Messages</p>
-    {% endif %}
+    <!-- We use message polling, fetch data with no refresh -->
+    <div id="messageContainer"></div>
 
     <form action="/messages" id="postMessage" method="post">
       <input type="text" placeholder="Post Message" name="message">
@@ -27,7 +22,7 @@
         console.log("Message", message)
 
         $.ajax({
-          type:"post",
+          type:"POST",
           url: url,
           data: JSON.stringify({ message: message }),
           contentType: "application/json",
@@ -35,6 +30,34 @@
           success: function() { location.reload(); }
         });
       });
+
+      function messagePoll() {
+        $.ajax({
+          type: "GET",
+          url: "/messages",
+          dataType: "json",
+          success: function(data) { 
+            updateMessages(data);
+          },
+          timeout: 500,
+          complete: setTimeout(messagePoll, 1000), // onComplete call messagePoll() again after 1000 mill
+        })
+      }
+
+      function updateMessages(messages) {
+        var $messageContainer = $('#messageContainer');
+        var messageList = [];
+        var emptyMessages = '<p>No Messages</p>';
+        if (messages.length === 0) {
+          $messageContainer.html(emptyMessages)
+        } else {
+          $.each(messages, function(index, value) {
+            var message = $(value.message).text() || value.message;
+            messageList.push('<p>' + message + '</p>');
+          });
+          $messageContainer.html(messageList);
+        }
+      }
     </script>
   </body>
 </html>
