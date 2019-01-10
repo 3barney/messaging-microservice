@@ -17,14 +17,15 @@ class RedisClient:
 
   def save_message(self, message):
     message_id = uuid4().hex
-    self.redis.set(message_id, message)
+    self.redis.set(message_id, message, ex=10)
 
     return message_id
 
   def get_all_messages(self):
     return [{
       'id': message_id,
-      'message': self.redis.get(message_id)
+      'message': self.redis.get(message_id),
+      'expires-in': self.redis.pttl(message_id)
     } for message_id in self.redis.keys()]
 
 
