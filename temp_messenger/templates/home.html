@@ -3,6 +3,9 @@
     <script src="https://code.jquery.com/jquery-latest.js"></script>
   </head>
   <body>
+
+    <h1>TempMessenger</h1>
+
     <!-- We use message polling, fetch data with no refresh -->
     <div id="messageContainer"></div>
 
@@ -13,7 +16,6 @@
 
     <script>
       $("#postMessage").submit(function(event) {
-        console.log("hello world")
         event.preventDefault()
         var $form = $(this),
           message = $form.find("input[name='message']").val(),
@@ -43,6 +45,8 @@
           complete: setTimeout(messagePoll, 1000), // onComplete call messagePoll() again after 1000 mill
         })
       }
+
+      messagePoll()
 
       function updateMessages(messages) {
         var $messageContainer = $('#messageContainer');

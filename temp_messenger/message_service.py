@@ -1,4 +1,5 @@
 from nameko.rpc import rpc
+from operator import itemgetter
 from .dependencies.messages import MessageStore
 
 class MessageService:
@@ -12,7 +13,7 @@ class MessageService:
 
   @rpc
   def save_message(self, message):
-    message_id = self.message_store.save_message(message)
+    message_id = self.message_store.save_message(message=message)
     return message_id
   
   @rpc
@@ -22,9 +23,10 @@ class MessageService:
     return sorted_messages
 
 
-def sort_messages_by_expiry(messages, reverse=false):
+def sort_messages_by_expiry(messages, reverse=False):
+  print(messages)
   return sorted(
     messages,
-    key=lambda message: message['expires_in'],
+    key=itemgetter('expires-in'),
     reverse=reverse
   )
