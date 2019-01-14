@@ -8,11 +8,15 @@ from .dependencies.redis import MessageStore
 from .dependencies.jinja2 import Jinja2
 
 
-# Delete the following, 
+# Delete the following,
+    # 0. Install dependencies
+    #     pip-compile requirements/base.in   , This will compile our files into the .txt equivalent
+    #     pip install -r requirements/base.txt -r requirements/test.txt
 #   1. Start docker for redis and rabbitmq,
 #         docker run -d -p 6379:6379 --name redis redis
 #         docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq
-
+        #### Rem to stop local postgress instance sudo /etc/init.d/postgresql stop
+#         docker run --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=users -p 5432:5432 -d postgres 
 #   2. Nameko service nameko run temp_messenger.service --config config.yaml @Ensure you in env
 
 class WebService:

@@ -1,3 +1,7 @@
 nameko
 redis
 jinja2
+sqlalchemy==1.2.1
+psycopg2==2.7.4
+nameko-sqlalchemy==1.0.0
+bcrypt==3.1.4

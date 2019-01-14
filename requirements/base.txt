@@ -5,7 +5,9 @@
 #    pip-compile --output-file requirements/base.txt requirements/base.in
 #
 amqp==2.3.2               # via kombu
+bcrypt==3.1.4
 certifi==2018.11.29       # via requests
+cffi==1.11.5              # via bcrypt
 chardet==3.0.4            # via requests
 dnspython==1.16.0         # via eventlet
 eventlet==0.24.1          # via nameko
@@ -17,13 +19,17 @@ kombu==4.2.2.post1        # via nameko
 markupsafe==1.1.0         # via jinja2
 mock==2.0.0               # via nameko
 monotonic==1.5            # via eventlet
+nameko-sqlalchemy==1.0.0
 nameko==2.11.0
 path.py==11.5.0           # via nameko
 pbr==5.1.1                # via mock
+psycopg2==2.7.4
+pycparser==2.19           # via cffi
 pyyaml==3.13              # via nameko
 redis==2.10.6
 requests==2.21.0          # via nameko
-six==1.12.0               # via eventlet, mock, nameko
+six==1.12.0               # via bcrypt, eventlet, mock, nameko
+sqlalchemy==1.2.1
 urllib3==1.24.1           # via requests
 vine==1.2.0               # via amqp
 werkzeug==0.14.1          # via nameko
