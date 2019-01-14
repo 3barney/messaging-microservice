@@ -15,3 +15,7 @@ class UserService:
       email=email,
       password=password
     )
+
+  @rpc
+  def authenticate_user(self, email, password):
+    self.user_store.authenticate(email, password)
